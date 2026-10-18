@@ -1,19 +1,18 @@
-package src.src;
+package src;
 
 import java.util.Date;
 
 public class ProcessadorDeVendas {
 
     private final Cliente client;
-    private final CalculadoraDeFrete ship;
+    private final EstrategiaFrete estrategiaFrete;
     private final Pedido request;
 
-    public ProcessadorDeVendas(Cliente client, CalculadoraDeFrete ship, Pedido request) {
+    public ProcessadorDeVendas(Cliente client, EstrategiaFrete estrategiaFrete, Pedido request) {
         this.client = client;
-        this.ship = ship;
+        this.estrategiaFrete = estrategiaFrete;
         this.request = request;
     }
-
     public void processar() throws Exception {
         client.validateClientDocument();
 
@@ -21,20 +20,19 @@ public class ProcessadorDeVendas {
         double total = result.total();
         double tax = result.tax();
 
-        double shipCost = ship.shipCostCalculator(client.clientType);
+        double shipCost = estrategiaFrete.calcularFrete(client);
 
         double totalFinal = total + tax + shipCost;
-        printReceipt(total, tax, shipCost, totalFinal, client, ship, request);
+        printReceipt(total, tax, shipCost, totalFinal, client, request);
     }
 
-    private void printReceipt(double total, double tax, double shipCost, double totalFinal, Cliente client, CalculadoraDeFrete ship, Pedido request) {
+    private void printReceipt(double total, double tax, double shipCost, double totalFinal,Cliente client, Pedido request) {
         System.out.println("=====================================");
         System.out.println("RECIBO DE VENDA");
         System.out.println("=====================================");
         System.out.println("Data: "  + new Date());
-        System.out.println("src.src.Cliente: "  + client.clientName);
+        System.out.println("src.src.src.Cliente: "  + client.clientName);
         System.out.println("Documento: "  + client.clientCPF);
-        System.out.println("Local da entega: "  + ship.address + " - " + ship.state);
         System.out.println("-------------------------------------");
         System.out.println("Subtotal Itens:  R$" + total);
         System.out.println("Total Impostos: R$"  + tax);
@@ -54,10 +52,8 @@ public class ProcessadorDeVendas {
                 Cliente.ClientType.COMM
         );
 
-        CalculadoraDeFrete ship = new CalculadoraDeFrete(
-                "Rua das Flores, 123",
-                "SP"
-        );
+
+        EstrategiaFrete estrategia = new FreteSudesteStrategy();
 
         Pedido request = new Pedido(
                 valores,
@@ -66,9 +62,8 @@ public class ProcessadorDeVendas {
 
         ProcessadorDeVendas p = new ProcessadorDeVendas(
                 cliente,
-                ship,
-                request
-        );
+                estrategia,
+                request);
 
         try {
             p.processar();
