@@ -1,3 +1,5 @@
+package src.src;
+
 public class Pedido {
 
     private final double[] value;

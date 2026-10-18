@@ -1,3 +1,5 @@
+package src.src;
+
 public class Cliente {
     public enum ClientType {
         VIP,

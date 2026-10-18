@@ -1,3 +1,5 @@
+package src.src;
+
 import java.util.Date;
 
 public class ProcessadorDeVendas {
@@ -30,7 +32,7 @@ public class ProcessadorDeVendas {
         System.out.println("RECIBO DE VENDA");
         System.out.println("=====================================");
         System.out.println("Data: "  + new Date());
-        System.out.println("Cliente: "  + client.clientName);
+        System.out.println("src.src.Cliente: "  + client.clientName);
         System.out.println("Documento: "  + client.clientCPF);
         System.out.println("Local da entega: "  + ship.address + " - " + ship.state);
         System.out.println("-------------------------------------");

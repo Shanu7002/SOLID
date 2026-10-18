@@ -1,3 +1,5 @@
+package src.src;
+
 public class CalculadoraDeFrete {
 
     public final String address;
